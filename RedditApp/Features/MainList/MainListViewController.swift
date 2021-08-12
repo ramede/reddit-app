@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol MainListViewControllerDelegate: AnyObject {
+    func didSelectPost(_ item: String)
+}
+
 class MainListViewController: UIViewController {
     
     lazy var redditPostsTableView: UITableView = {
@@ -18,11 +22,14 @@ class MainListViewController: UIViewController {
     
     private var redditPosts = ["one", "two", "three", "four"]
     
+    weak var delegate: MainListViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         buildHierarchy()
         buildConstraints()
         redditPostsTableView.dataSource = self
+        redditPostsTableView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,5 +60,11 @@ extension MainListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? RedditPostTableViewCell
         cell?.label.text  = redditPosts[indexPath.row]
         return cell!
+    }
+}
+
+extension MainListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.didSelectPost(redditPosts[indexPath.row])
     }
 }

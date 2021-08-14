@@ -9,8 +9,6 @@ import UIKit
 
 final class MainListView: UIView {
 
-    private var redditPosts = ["one", "two", "three", "four"]
-
     private var headerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +45,14 @@ final class MainListView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+        
+    var dataSource: [RedditChildreen] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.redditPostsTableView.reloadData()
+            }
+        }
+    }
     
     private func setupTableView() {
         redditPostsTableView.dataSource = self
@@ -82,18 +88,33 @@ final class MainListView: UIView {
 
 extension MainListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return redditPosts.count
+        return dataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? RedditPostTableViewCell
-        //cell?.label.text  = redditPosts[indexPath.row]
-        return cell!
+        guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "cell",
+                for: indexPath
+        ) as? RedditPostTableViewCell else { return UITableViewCell() }
+        
+        cell.delegate = self
+        cell.author = dataSource[indexPath.row].data.author
+        cell.comments = dataSource[indexPath.row].data.comments
+        return cell
     }
 }
 
 extension MainListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //delegate?.didSelectPost(redditPosts[indexPath.row])
+    }
+}
+
+extension MainListView: RedditPostTableViewCellDelegate {
+    func didTapOnDismiss(cell: RedditPostTableViewCell) {
+        if let indexPath = redditPostsTableView.indexPath(for: cell) {
+            dataSource.remove(at: indexPath.row)
+            redditPostsTableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }

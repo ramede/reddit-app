@@ -30,10 +30,17 @@ class MainListViewController: UIViewController {
         let api = "https://www.reddit.com"
         let endpoint = "/top/.json?limit=50"
         let url = URL(string: api + endpoint)
-
+        
         // Fetch
         NetworkDispatcher().execute(sessionURL: url!) { (result: Result<RedditPostsResponse, Error>) in
-            print(result)
+            switch result {
+            case .success(let redditPostsResponse):
+                self.contentView.dataSource = redditPostsResponse.data.children
+                print(redditPostsResponse)
+                print("redditPostsResponse")
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     

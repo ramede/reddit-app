@@ -7,9 +7,13 @@
 
 import UIKit
 
+protocol RedditPostTableViewCellDelegate: AnyObject {
+    func didTapOnDismiss(cell: RedditPostTableViewCell)
+}
+ 
 class RedditPostTableViewCell: UITableViewCell {
   
-    lazy var verticalStackView: UIStackView = {
+    private lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,14 +21,14 @@ class RedditPostTableViewCell: UITableViewCell {
         return stackView
     }()
         
-    lazy var topContentView: UIView = {
+    private lazy var topContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy var readStatusImageView: UIImageView = {
+    private lazy var readStatusImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "unread")
@@ -32,42 +36,40 @@ class RedditPostTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    lazy var authorLabel: UILabel = {
+    private lazy var authorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.font = UIFont.boldSystemFont(ofSize: 18.0)
-        label.text = "Author_Name"
         return label
     }()
 
-    lazy var middleContentView: UIView = {
+    private lazy var middleContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         return view
     }()
 
-    lazy var postImageView: UIImageView = {
+    private lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "unread")
+        imageView.image = UIImage(named: "reddit")
         imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = .clear
         return imageView
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.numberOfLines = 2
         label.font = label.font.withSize(14)
-        label.text = "Knife made of cable from the goldem gate bridge"
         return label
     }()
     
-    lazy var arrowImageView: UIImageView = {
+    private lazy var arrowImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "arrowRight")
@@ -76,21 +78,21 @@ class RedditPostTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    lazy var bottomContentView: UIView = {
+    private lazy var bottomContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy var dismissContainerView: UIView = {
+    private lazy var dismissContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         return view
     }()
 
-    lazy var dimissImageView: UIImageView = {
+    private lazy var dimissImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "delete")
@@ -99,7 +101,7 @@ class RedditPostTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    lazy var dimissLabel: UILabel = {
+    private lazy var dimissLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -108,20 +110,51 @@ class RedditPostTableViewCell: UITableViewCell {
         return label
     }()
 
-    lazy var commentsLabel: UILabel = {
+    private lazy var commentsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        label.text = "1788373 Comments"
         label.textColor = .systemBlue
         label.textAlignment = .right
         label.font = label.font.withSize(15)
         return label
     }()
+    
+    weak var delegate: RedditPostTableViewCellDelegate?
+    
+    var title: String = "" {
+        didSet {
+            titleLabel.text = title
+        }
+    }
+    
+    var comments: Int = 0 {
+        didSet {
+            switch comments {
+            case 0:
+                commentsLabel.text = ""
+            case 1:
+                commentsLabel.text = "\(String(comments)) comment"
+            default:
+                commentsLabel.text = "\(String(comments)) comments"
+            }
+        }
+    }
+    
+    var author: String = "" {
+        didSet {
+            authorLabel.text = author
+        }
+    }
+    
+    var didRead: Bool = false {
+        didSet {
+            readStatusImageView.image = didRead ? UIImage(named: "read") : UIImage(named: "unread")
+        }
+    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit()
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -133,6 +166,7 @@ class RedditPostTableViewCell: UITableViewCell {
         backgroundColor = .clear
         buildHierarchy()
         buildConstraints()
+        setupGestures()
     }
     
     private func buildHierarchy() {
@@ -208,5 +242,15 @@ class RedditPostTableViewCell: UITableViewCell {
             commentsLabel.leadingAnchor.constraint(equalTo: dismissContainerView.trailingAnchor, constant: 8),
             commentsLabel.trailingAnchor.constraint(equalTo: bottomContentView.trailingAnchor, constant: -12)
         ])
+    }
+    
+    private func setupGestures() {
+        let dimissGesture = UITapGestureRecognizer(target: self, action: #selector(dismissAction))
+        dismissContainerView.addGestureRecognizer(dimissGesture)
+    }
+    
+    @objc
+    private func dismissAction() {
+        delegate?.didTapOnDismiss(cell: self)
     }
 }

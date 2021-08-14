@@ -18,7 +18,6 @@ enum RedditAppError: Error {
 //}
 
 struct NetworkDispatcher {
-    
     func execute<T: Decodable>(sessionURL: URL, completion : @escaping (Result<T, Error>) -> Void) {
         let session = URLSession(configuration: .default)
         let dataTask = session.dataTask(with: sessionURL) { (data, response, error) in

@@ -29,7 +29,7 @@ class MainListViewController: UIViewController {
         
         // Build URL
         let api = "https://www.reddit.com"
-        let endpoint = "/top/.json?limit=50"
+        let endpoint = "/top/.json?limit=10"
         let url = URL(string: api + endpoint)
         
         // Fetch

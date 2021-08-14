@@ -26,6 +26,7 @@ struct RedditPost: Decodable {
 }
 
 struct RedditChildreen: Decodable {
+    var didRead: Bool?
     let kind: String
     let data: RedditPost
 }

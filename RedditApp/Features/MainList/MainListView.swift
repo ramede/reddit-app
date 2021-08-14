@@ -106,6 +106,7 @@ extension MainListView: UITableViewDataSource {
         cell.delegate = self
         cell.author = dataSource[indexPath.row].data.author
         cell.comments = dataSource[indexPath.row].data.comments
+        cell.didRead = dataSource[indexPath.row].didRead ?? false
         return cell
     }
 }
@@ -113,6 +114,8 @@ extension MainListView: UITableViewDataSource {
 extension MainListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.didSelectPost(dataSource[indexPath.row])
+        dataSource[indexPath.row].didRead = true
+        redditPostsTableView.reloadData()
     }
 }
 

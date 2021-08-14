@@ -9,10 +9,12 @@ import UIKit
 
 protocol  MainListViewDelegate: AnyObject {
     func didSelectPost(_ item: RedditChildreen)
+    func didPullToRefresh()
 }
 
 final class MainListView: UIView {
-
+    private let refreshControl = UIRefreshControl()
+    
     private var headerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +58,7 @@ final class MainListView: UIView {
         didSet {
             DispatchQueue.main.async {
                 self.redditPostsTableView.reloadData()
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -63,8 +66,13 @@ final class MainListView: UIView {
     private func setupTableView() {
         redditPostsTableView.dataSource = self
         redditPostsTableView.delegate = self
+        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+        redditPostsTableView.addSubview(refreshControl)
     }
     
+    @objc func refresh() {
+        delegate?.didPullToRefresh()
+    }
     private func buildHierarchy() {
         headerView.addSubview(titleLabel)
         addSubview(headerView)

@@ -26,10 +26,24 @@ class MainListViewController: UIViewController {
         buildHierarchy()
         buildConstraints()
         contentView.delegate = self
-        
+        fetchPost()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        view.backgroundColor = .systemGray5
+    }
+    
+    private func buildHierarchy() {
+    }
+    
+    private func buildConstraints() {
+    }
+    
+    private func fetchPost() {
         // Build URL
         let api = "https://www.reddit.com"
-        let endpoint = "/top/.json?limit=10"
+        let endpoint = "/top/.json?limit=3"
         let url = URL(string: api + endpoint)
         
         // Fetch
@@ -45,20 +59,14 @@ class MainListViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        view.backgroundColor = .systemGray5
-    }
-    
-    private func buildHierarchy() {
-    }
-    
-    func buildConstraints() {
-    }
 }
 
 extension MainListViewController: MainListViewDelegate {
     func didSelectPost(_ item: RedditChildreen) {
         delegate?.didSelectPost(item)
+    }
+    
+    func didPullToRefresh() {
+        fetchPost()
     }
 }

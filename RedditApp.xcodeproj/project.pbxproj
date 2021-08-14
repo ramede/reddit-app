@@ -17,6 +17,7 @@
 		87063FC526C36CCA00382BAF /* RedditPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87063FC426C36CCA00382BAF /* RedditPostTableViewCell.swift */; };
 		879F8D0926C73C7A00FE0305 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F8D0826C73C7A00FE0305 /* Models.swift */; };
 		879F8D0C26C7609900FE0305 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F8D0B26C7609900FE0305 /* NetworkingManager.swift */; };
+		879F8D0E26C8159200FE0305 /* MainListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F8D0D26C8159200FE0305 /* MainListView.swift */; };
 		87FA5AB426C3577C00BA134B /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FA5AB326C3577C00BA134B /* MainListViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 		87063FC426C36CCA00382BAF /* RedditPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditPostTableViewCell.swift; sourceTree = "<group>"; };
 		879F8D0826C73C7A00FE0305 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		879F8D0B26C7609900FE0305 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		879F8D0D26C8159200FE0305 /* MainListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListView.swift; sourceTree = "<group>"; };
 		87FA5AB326C3577C00BA134B /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +183,7 @@
 			children = (
 				87FA5AB326C3577C00BA134B /* MainListViewController.swift */,
 				87063FC426C36CCA00382BAF /* RedditPostTableViewCell.swift */,
+				879F8D0D26C8159200FE0305 /* MainListView.swift */,
 			);
 			path = MainList;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87036C2B26C3432500AEA09E /* DetailViewController.swift in Sources */,
+				879F8D0E26C8159200FE0305 /* MainListView.swift in Sources */,
 				87036C2726C3432500AEA09E /* AppDelegate.swift in Sources */,
 				879F8D0C26C7609900FE0305 /* NetworkingManager.swift in Sources */,
 				87FA5AB426C3577C00BA134B /* MainListViewController.swift in Sources */,

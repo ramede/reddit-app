@@ -64,7 +64,7 @@ class RedditPostTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.numberOfLines = 2
-        label.font = label.font.withSize(14)
+        label.font = label.font.withSize(14.0)
         return label
     }()
     
@@ -104,7 +104,7 @@ class RedditPostTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.text = "Dimiss Post"
-        label.font = label.font.withSize(15)
+        label.font = label.font.withSize(15.0)
         return label
     }()
 
@@ -114,7 +114,7 @@ class RedditPostTableViewCell: UITableViewCell {
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.textColor = .systemBlue
         label.textAlignment = .right
-        label.font = label.font.withSize(15)
+        label.font = label.font.withSize(15.0)
         return label
     }()
     

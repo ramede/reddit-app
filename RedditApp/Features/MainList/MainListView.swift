@@ -10,7 +10,7 @@ import UIKit
 protocol  MainListViewDelegate: AnyObject {
     func didSelectPost(_ item: RedditChildreen)
     func didPullToRefresh()
-}
+    }
 
 final class MainListView: UIView {
     private let refreshControl = UIRefreshControl()
@@ -39,12 +39,36 @@ final class MainListView: UIView {
         tableView.backgroundColor = .systemGray6
         return tableView
     }()
+
+    private var dividerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray5
+        return view
+    }()
+
+    private var bottomView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray6
+        return view
+    }()
+    
+    private var dismissLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 16.0)
+        label.text = "Dismiss All"
+        label.textAlignment = .center
+        return label
+    }()
     
     weak var delegate: MainListViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setupGestures()
         setupTableView()
         buildHierarchy()
         buildConstraints()
@@ -75,8 +99,11 @@ final class MainListView: UIView {
     }
     private func buildHierarchy() {
         headerView.addSubview(titleLabel)
+        bottomView.addSubview(dismissLabel)
         addSubview(headerView)
         addSubview(redditPostsTableView)
+        addSubview(dividerView)
+        addSubview(bottomView)
     }
     
     private func buildConstraints() {
@@ -94,8 +121,33 @@ final class MainListView: UIView {
 
             redditPostsTableView.leftAnchor.constraint(equalTo: leftAnchor),
             redditPostsTableView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            redditPostsTableView.rightAnchor.constraint(equalTo: rightAnchor)
+            redditPostsTableView.rightAnchor.constraint(equalTo: rightAnchor),
+            
+            dividerView.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
+            dividerView.rightAnchor.constraint(equalTo: rightAnchor),
+            dividerView.leftAnchor.constraint(equalTo: leftAnchor),
+            dividerView.heightAnchor.constraint(equalToConstant: 1),
+            
+            bottomView.leftAnchor.constraint(equalTo: leftAnchor),
+            bottomView.rightAnchor.constraint(equalTo: rightAnchor),
+            bottomView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomView.heightAnchor.constraint(equalToConstant: 40),
+            
+            dismissLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor),
+            dismissLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor),
+            dismissLabel.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor)
         ])
+    }
+    
+    private func setupGestures() {
+        let dimissGesture = UITapGestureRecognizer(target: self, action: #selector(dismissAllAction))
+        bottomView.addGestureRecognizer(dimissGesture)
+    }
+
+    @objc
+    private func dismissAllAction() {
+        dataSource = []
+        redditPostsTableView.reloadData()
     }
 
 }

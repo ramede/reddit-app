@@ -43,7 +43,7 @@ class MainListViewController: UIViewController {
     private func fetchPost() {
         // Build URL
         let api = "https://www.reddit.com"
-        let endpoint = "/top/.json?limit=3"
+        let endpoint = "/top/.json?limit=50"
         let url = URL(string: api + endpoint)
         
         // Fetch
@@ -58,7 +58,6 @@ class MainListViewController: UIViewController {
             }
         }
     }
-    
 }
 
 extension MainListViewController: MainListViewDelegate {

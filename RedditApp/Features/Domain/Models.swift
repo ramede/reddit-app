@@ -9,6 +9,7 @@ import Foundation
 
 struct RedditPost: Decodable {
     let subreddit: String
+    let title: String
     let author: String
     let created: Int
     let url: String?
@@ -16,6 +17,7 @@ struct RedditPost: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case subreddit
+        case title
         case author
         case created
         case url = "url_overridden_by_dest"

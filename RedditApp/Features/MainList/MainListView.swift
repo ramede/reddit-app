@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol  MainListViewDelegate: AnyObject {
+    func didSelectPost(_ item: RedditChildreen)
+}
+
 final class MainListView: UIView {
 
     private var headerView: UIView = {
@@ -33,6 +37,8 @@ final class MainListView: UIView {
         tableView.backgroundColor = .systemGray6
         return tableView
     }()
+    
+    weak var delegate: MainListViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -106,7 +112,7 @@ extension MainListView: UITableViewDataSource {
 
 extension MainListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //delegate?.didSelectPost(redditPosts[indexPath.row])
+        delegate?.didSelectPost(dataSource[indexPath.row])
     }
 }
 

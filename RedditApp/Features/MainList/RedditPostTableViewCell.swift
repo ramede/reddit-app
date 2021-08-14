@@ -12,7 +12,6 @@ protocol RedditPostTableViewCellDelegate: AnyObject {
 }
  
 class RedditPostTableViewCell: UITableViewCell {
-  
     private lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -88,7 +87,6 @@ class RedditPostTableViewCell: UITableViewCell {
     private lazy var dismissContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
         return view
     }()
 
@@ -226,6 +224,7 @@ class RedditPostTableViewCell: UITableViewCell {
             
             bottomContentView.heightAnchor.constraint(equalToConstant: 40),
             
+            dismissContainerView.widthAnchor.constraint(equalToConstant: 130    ),
             dismissContainerView.heightAnchor.constraint(equalToConstant: 40),
             dismissContainerView.leadingAnchor.constraint(equalTo: bottomContentView.leadingAnchor, constant: 12),
             

@@ -8,11 +8,10 @@
 import UIKit
 
 protocol MainListViewControllerDelegate: AnyObject {
-    func didSelectPost(_ item: String)
+    func didSelectPost(_ item: RedditChildreen)
 }
 
 class MainListViewController: UIViewController {
-    
     private lazy var contentView = MainListView()
 
     weak var delegate: MainListViewControllerDelegate?
@@ -23,8 +22,10 @@ class MainListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         buildHierarchy()
         buildConstraints()
+        contentView.delegate = self
         
         // Build URL
         let api = "https://www.reddit.com"
@@ -53,5 +54,11 @@ class MainListViewController: UIViewController {
     }
     
     func buildConstraints() {
+    }
+}
+
+extension MainListViewController: MainListViewDelegate {
+    func didSelectPost(_ item: RedditChildreen) {
+        delegate?.didSelectPost(item)
     }
 }

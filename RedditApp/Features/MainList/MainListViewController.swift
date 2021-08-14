@@ -39,7 +39,7 @@ class MainListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        view.backgroundColor = .green
+        view.backgroundColor = .systemGray5
     }
     
     private func buildHierarchy() {

@@ -30,6 +30,16 @@ class MainListViewController: UIViewController {
         buildConstraints()
         redditPostsTableView.dataSource = self
         redditPostsTableView.delegate = self
+        
+        // Build URL
+        let api = "https://www.reddit.com"
+        let endpoint = "/top/.json?limit=50"
+        let url = URL(string: api + endpoint)
+
+        // Fetch
+        NetworkDispatcher().execute(sessionURL: url!) { (result: Result<RedditPostsResponse, Error>) in
+            print(result)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -40,19 +40,27 @@ class MainListViewController: UIViewController {
     private func buildConstraints() {
     }
     
-    private func fetchPost() {
+    private func fetchPost(after: String? = nil) {
         // Build URL
         let api = "https://www.reddit.com"
-        let endpoint = "/top/.json?limit=50"
-        let url = URL(string: api + endpoint)
+        let endpoint = "/top/.json?limit=15"
+        
+        var afterCondicional = ""
+        if let after = after {
+            afterCondicional = "&after=\(after)"
+        }
+        
+        let url = URL(string: api + endpoint + afterCondicional)
         
         // Fetch
         NetworkDispatcher().execute(sessionURL: url!) { (result: Result<RedditPostsResponse, Error>) in
             switch result {
             case .success(let redditPostsResponse):
-                self.contentView.dataSource = redditPostsResponse.data.children
-                print(redditPostsResponse)
-                print("redditPostsResponse")
+                if let _ = after {
+                    self.contentView.dataSource.append(contentsOf: redditPostsResponse.data.children)
+                } else {
+                    self.contentView.dataSource = redditPostsResponse.data.children
+                }
             case .failure(let error):
                 print(error)
             }
@@ -67,5 +75,9 @@ extension MainListViewController: MainListViewDelegate {
     
     func didPullToRefresh() {
         fetchPost()
+    }
+    
+    func fetchNextPage(_ after: String) {
+        fetchPost(after: after)
     }
 }

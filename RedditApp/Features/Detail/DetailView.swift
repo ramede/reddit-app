@@ -12,6 +12,7 @@ final class DetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 26.0)
+        label.text = "Reddit - Dive into anything"
         return label
     }()
     
@@ -29,6 +30,7 @@ final class DetailView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .center
         return label
     }()
     

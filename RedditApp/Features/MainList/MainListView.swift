@@ -10,9 +10,11 @@ import UIKit
 protocol  MainListViewDelegate: AnyObject {
     func didSelectPost(_ item: RedditChildreen)
     func didPullToRefresh()
-    }
+    func fetchNextPage(_ after: String)
+}
 
 final class MainListView: UIView {
+    private var isLoading: Bool = false
     private let refreshControl = UIRefreshControl()
     
     private var headerView: UIView = {
@@ -78,9 +80,12 @@ final class MainListView: UIView {
         super.init(coder: coder)
     }
         
+    var after: String = ""
+
     var dataSource: [RedditChildreen] = [] {
         didSet {
             DispatchQueue.main.async {
+                self.isLoading = false
                 self.redditPostsTableView.reloadData()
                 self.refreshControl.endRefreshing()
             }
@@ -184,6 +189,17 @@ extension MainListView: RedditPostTableViewCellDelegate {
         if let indexPath = redditPostsTableView.indexPath(for: cell) {
             dataSource.remove(at: indexPath.row)
             redditPostsTableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+}
+
+extension MainListView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffsetY = scrollView.contentOffset.y
+        if contentOffsetY >= (scrollView.contentSize.height - scrollView.bounds.height) - 20 {
+            guard !isLoading else { return }
+            isLoading = true
+            delegate?.fetchNextPage(after)
         }
     }
 }

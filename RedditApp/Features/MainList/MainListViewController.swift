@@ -12,6 +12,7 @@ protocol MainListViewControllerDelegate: AnyObject {
 }
 
 protocol MainListDisplayable: AnyObject {
+    func dismissAllPosts()
     func dimissPost(_ idx: IndexPath)
     func displayPosts(with posts: [RedditChildreen], after: String?)
     func displayNextPostsPage(with posts: [RedditChildreen], after: String?)
@@ -61,6 +62,10 @@ class MainListViewController: UIViewController {
 }
 
 extension MainListViewController: MainListViewDelegate {
+    func didTapOnDimissAll() {
+        dismissAllPosts()
+    }
+    
     func didTapOnDimissPost(idx: IndexPath) {
         dimissPost(idx)
     }
@@ -80,6 +85,10 @@ extension MainListViewController: MainListViewDelegate {
 }
 
 extension MainListViewController: MainListDisplayable {
+    func dismissAllPosts() {
+        contentView.dismissAllPosts()
+    }
+    
     func dimissPost(_ idx: IndexPath) {
         contentView.dismissPost(on: idx)
     }

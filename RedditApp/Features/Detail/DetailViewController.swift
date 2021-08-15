@@ -28,5 +28,6 @@ extension DetailViewController: MainListViewControllerDelegate {
     func didSelectPost(_ item: RedditChildreen) {
         contentView.author = item.data.author
         contentView.title = item.data.title
+        contentView.imageUrl = item.data.imageUrl
     }
 }

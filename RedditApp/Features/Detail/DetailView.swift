@@ -5,6 +5,7 @@
 //  Created by Râmede on 14/08/21.
 //
 
+import SDWebImage
 import UIKit
 
 final class DetailView: UIView {    
@@ -50,6 +51,24 @@ final class DetailView: UIView {
     var title: String = "" {
         didSet {
             titleLabel.text = title
+        }
+    }
+    
+    var imageUrl: String? = "" {
+        didSet {
+            guard let imageUrl = imageUrl else {
+                self.postImageView.image = UIImage(named: "reddit")
+                return
+            }
+            self.postImageView.sd_setImage(
+                with: URL(string: imageUrl),
+                placeholderImage: UIImage(named: "reddit"), completed: { (image, error, cacheType, url) -> Void in
+                    if ((error) != nil) {
+                        self.postImageView.image = UIImage(named: "reddit")
+                    } else {
+                        self.postImageView.image = image
+                    }
+                })
         }
     }
     

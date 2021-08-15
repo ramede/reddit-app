@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol RedditPostTableViewCellDelegate: AnyObject {
     func didTapOnDismiss(cell: RedditPostTableViewCell)
@@ -53,9 +54,8 @@ class RedditPostTableViewCell: UITableViewCell {
     private lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "reddit")
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .clear
+        imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         return imageView
     }()
     
@@ -142,6 +142,24 @@ class RedditPostTableViewCell: UITableViewCell {
     var author: String = "" {
         didSet {
             authorLabel.text = author
+        }
+    }
+    
+    var imageUrl: String? = "" {
+        didSet {
+            guard let imageUrl = imageUrl else {
+                self.postImageView.image = UIImage(named: "reddit")
+                return
+            }
+            self.postImageView.sd_setImage(
+                with: URL(string: imageUrl),
+                placeholderImage: UIImage(named: "reddit"), completed: { (image, error, cacheType, url) -> Void in
+                    if ((error) != nil) {
+                        self.postImageView.image = UIImage(named: "reddit")
+                    } else {
+                        self.postImageView.image = image
+                    }
+                })
         }
     }
     

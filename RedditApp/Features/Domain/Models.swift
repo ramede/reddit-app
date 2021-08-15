@@ -12,7 +12,7 @@ struct RedditPost: Decodable {
     let title: String
     let author: String
     let created: Int
-    let url: String?
+    let imageUrl: String?
     let comments: Int
     
     enum CodingKeys: String, CodingKey {
@@ -20,7 +20,7 @@ struct RedditPost: Decodable {
         case title
         case author
         case created
-        case url = "url_overridden_by_dest"
+        case imageUrl = "url_overridden_by_dest"
         case comments = "num_comments"
     }
 }

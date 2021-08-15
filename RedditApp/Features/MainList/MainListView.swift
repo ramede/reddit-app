@@ -171,6 +171,8 @@ extension MainListView: UITableViewDataSource {
         cell.delegate = self
         cell.author = dataSource[indexPath.row].data.author
         cell.comments = dataSource[indexPath.row].data.comments
+        cell.title = dataSource[indexPath.row].data.title
+        cell.imageUrl = dataSource[indexPath.row].data.imageUrl
         cell.didRead = dataSource[indexPath.row].didRead ?? false
         return cell
     }

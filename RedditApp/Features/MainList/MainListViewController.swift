@@ -14,6 +14,7 @@ protocol MainListViewControllerDelegate: AnyObject {
 protocol MainListDisplayable: AnyObject {
     func displayPosts(with posts: [RedditChildreen], after: String?)
     func displayNextPostsPage(with posts: [RedditChildreen], after: String?)
+    func displayPostAsRead(idx: Int)
     func displayLoading(_ isLoading: Bool)
     func displayError()
 }
@@ -59,8 +60,9 @@ class MainListViewController: UIViewController {
 }
 
 extension MainListViewController: MainListViewDelegate {
-    func didSelectPost(_ item: RedditChildreen) {
+    func didSelectPost(item: RedditChildreen, idx: Int) {
         delegate?.didSelectPost(item)
+        displayPostAsRead(idx: idx)
     }
     
     func didPullToRefresh() {
@@ -81,6 +83,10 @@ extension MainListViewController: MainListDisplayable {
     func displayNextPostsPage(with posts: [RedditChildreen], after: String?) {
         contentView.dataSource.append(contentsOf: posts)
         contentView.after = after ?? ""
+    }
+    
+    func displayPostAsRead(idx: Int) {
+        contentView.markPostAsRead(in: idx)
     }
     
     func displayLoading(_ isLoading: Bool) {

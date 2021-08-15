@@ -8,7 +8,7 @@
 import UIKit
 
 protocol  MainListViewDelegate: AnyObject {
-    func didSelectPost(_ item: RedditChildreen)
+    func didSelectPost(item: RedditChildreen, idx: Int)
     func didPullToRefresh()
     func fetchNextPage(_ after: String)
 }
@@ -67,19 +67,6 @@ final class MainListView: UIView {
     
     weak var delegate: MainListViewDelegate?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setupGestures()
-        setupTableView()
-        buildHierarchy()
-        buildConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-        
     var after: String = ""
 
     var dataSource: [RedditChildreen] = [] {
@@ -92,6 +79,24 @@ final class MainListView: UIView {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupGestures()
+        setupTableView()
+        buildHierarchy()
+        buildConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    func markPostAsRead(in idx: Int) {
+        dataSource[idx].didRead = true
+        redditPostsTableView.reloadData()
+    }
+    
     private func setupTableView() {
         redditPostsTableView.dataSource = self
         redditPostsTableView.delegate = self
@@ -99,7 +104,7 @@ final class MainListView: UIView {
         redditPostsTableView.addSubview(refreshControl)
     }
     
-    @objc func refresh() {
+    @objc private func refresh() {
         delegate?.didPullToRefresh()
     }
     private func buildHierarchy() {
@@ -180,9 +185,7 @@ extension MainListView: UITableViewDataSource {
 
 extension MainListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSelectPost(dataSource[indexPath.row])
-        dataSource[indexPath.row].didRead = true
-        redditPostsTableView.reloadData()
+        delegate?.didSelectPost(item: dataSource[indexPath.row], idx: indexPath.row)
     }
 }
 

@@ -10,7 +10,6 @@ import Foundation
 protocol MainListInteractable: AnyObject {
     func loadInitialInfo()
     func dissmissAll()
-    func markAsRead()
     func getRedditPosts(after: String?)
 }
 
@@ -52,10 +51,6 @@ extension MainListInteractor: MainListInteractable {
     }
 
     func dissmissAll() {
-        
-    }
-    
-    func markAsRead() {
         
     }
     

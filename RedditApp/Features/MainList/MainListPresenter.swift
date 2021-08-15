@@ -27,7 +27,7 @@ extension MainListPresenter: MainListPresentable {
     func presentNextPostsPage(posts: [RedditChildreen], after: String?) {
         viewController?.displayNextPostsPage(with: posts, after: after)
     }
-
+    
     func presentLoading(_ isLoading: Bool) {
         
     }

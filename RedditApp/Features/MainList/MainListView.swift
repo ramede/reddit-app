@@ -100,13 +100,17 @@ final class MainListView: UIView {
     }
     
     func markPostAsRead(on idx: Int) {
-        dataSource[idx].didRead = true
-        redditPostsTableView.reloadData()
+        if idx >= dataSource.startIndex && idx < dataSource.endIndex {
+            dataSource[idx].didRead = true
+            redditPostsTableView.reloadData()
+        }
     }
     
     func dismissPost(on idx: IndexPath) {
-        dataSource.remove(at: idx.row)
-        redditPostsTableView.deleteRows(at: [idx], with: .fade)
+        if idx.row >= dataSource.startIndex && idx.row < dataSource.endIndex {
+            dataSource.remove(at: idx.row)
+            redditPostsTableView.deleteRows(at: [idx], with: .fade)
+        }
     }
     
     private func setupTableView() {
@@ -190,6 +194,7 @@ extension MainListView: UITableViewDataSource {
         cell.title = dataSource[indexPath.row].data.title
         cell.imageUrl = dataSource[indexPath.row].data.imageUrl
         cell.didRead = dataSource[indexPath.row].didRead ?? false
+        
         return cell
     }
 }

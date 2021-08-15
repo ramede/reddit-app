@@ -8,6 +8,7 @@
 import UIKit
 
 protocol  MainListViewDelegate: AnyObject {
+    func didTapOnDimissPost(idx: IndexPath)
     func didSelectPost(item: RedditChildreen, idx: Int)
     func didPullToRefresh()
     func fetchNextPage(_ after: String)
@@ -92,9 +93,14 @@ final class MainListView: UIView {
         super.init(coder: coder)
     }
 
-    func markPostAsRead(in idx: Int) {
+    func markPostAsRead(on idx: Int) {
         dataSource[idx].didRead = true
         redditPostsTableView.reloadData()
+    }
+    
+    func dismissPost(on idx: IndexPath) {
+        dataSource.remove(at: idx.row)
+        redditPostsTableView.deleteRows(at: [idx], with: .fade)
     }
     
     private func setupTableView() {
@@ -192,8 +198,7 @@ extension MainListView: UITableViewDelegate {
 extension MainListView: MainListTableViewCellDelegate {
     func didTapOnDismiss(cell: MainListTableViewCell) {
         if let indexPath = redditPostsTableView.indexPath(for: cell) {
-            dataSource.remove(at: indexPath.row)
-            redditPostsTableView.deleteRows(at: [indexPath], with: .automatic)
+            delegate?.didTapOnDimissPost(idx: indexPath)
         }
     }
 }

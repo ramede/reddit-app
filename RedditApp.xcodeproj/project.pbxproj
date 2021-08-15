@@ -223,8 +223,8 @@
 				87FA5AB326C3577C00BA134B /* MainListViewController.swift */,
 				87A7927026C995C900CDDDA0 /* MainListPresenter.swift */,
 				87A7926D26C9949100CDDDA0 /* MainListInteractor.swift */,
-				87063FC426C36CCA00382BAF /* MainListTableViewCell.swift */,
 				879F8D0D26C8159200FE0305 /* MainListView.swift */,
+				87063FC426C36CCA00382BAF /* MainListTableViewCell.swift */,
 				87A7927226C9A1D000CDDDA0 /* MainListFactory.swift */,
 			);
 			path = MainList;

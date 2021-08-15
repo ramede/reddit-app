@@ -12,8 +12,8 @@ protocol MainListViewControllerDelegate: AnyObject {
 }
 
 protocol MainListDisplayable: AnyObject {
-    func displayPosts(_ posts: [RedditChildreen])
-    func displayNextPostsPage(_ posts: [RedditChildreen])
+    func displayPosts(with posts: [RedditChildreen], after: String?)
+    func displayNextPostsPage(with posts: [RedditChildreen], after: String?)
     func displayLoading(_ isLoading: Bool)
     func displayError()
 }
@@ -56,33 +56,6 @@ class MainListViewController: UIViewController {
     
     private func buildConstraints() {
     }
-    
-    private func fetchPost(after: String? = nil) {
-        // Build URL
-        let api = "https://www.reddit.com"
-        let endpoint = "/top/.json?limit=15"
-        
-        var afterCondicional = ""
-        if let after = after {
-            afterCondicional = "&after=\(after)"
-        }
-        
-        let url = URL(string: api + endpoint + afterCondicional)
-        
-        // Fetch
-        NetworkDispatcher().execute(sessionURL: url!) { (result: Result<RedditPostsResponse, Error>) in
-            switch result {
-            case .success(let redditPostsResponse):
-                if let _ = after {
-                    self.contentView.dataSource.append(contentsOf: redditPostsResponse.data.children)
-                } else {
-                    self.contentView.dataSource = redditPostsResponse.data.children
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
 }
 
 extension MainListViewController: MainListViewDelegate {
@@ -91,21 +64,23 @@ extension MainListViewController: MainListViewDelegate {
     }
     
     func didPullToRefresh() {
-        fetchPost()
+        interactor.getRedditPosts(after: nil)
     }
     
     func fetchNextPage(_ after: String) {
-        fetchPost(after: after)
+        interactor.getRedditPosts(after: after)
     }
 }
 
 extension MainListViewController: MainListDisplayable {
-    func displayPosts(_ posts: [RedditChildreen]) {
+    func displayPosts(with posts: [RedditChildreen], after: String?) {
         contentView.dataSource = posts
+        contentView.after = after ?? ""
     }
     
-    func displayNextPostsPage(_ posts: [RedditChildreen]) {
+    func displayNextPostsPage(with posts: [RedditChildreen], after: String?) {
         contentView.dataSource.append(contentsOf: posts)
+        contentView.after = after ?? ""
     }
     
     func displayLoading(_ isLoading: Bool) {

@@ -11,7 +11,7 @@ protocol MainListInteractable: AnyObject {
     func loadInitialInfo()
     func dissmissAll()
     func markAsRead()
-    func getRedditPosts(pageSize: Int, after: String?)
+    func getRedditPosts(after: String?)
 }
 
 final class MainListInteractor {
@@ -24,11 +24,12 @@ final class MainListInteractor {
 
 extension MainListInteractor: MainListInteractable {
     func loadInitialInfo() {
-        getRedditPosts(pageSize: 30, after: nil)
+        getRedditPosts(after: nil)
     }
     
-    func getRedditPosts(pageSize: Int, after: String?) {
+    func getRedditPosts(after: String?) {
         // Build URL
+        let pageSize = 5
         let api = "https://www.reddit.com"
         let endpoint = "/top/.json?limit=\(String(pageSize))"
         
@@ -61,12 +62,12 @@ extension MainListInteractor: MainListInteractable {
     private func handleRedditResponse(after: String?, with redditPostsResponse: RedditPostsResponse) {
         if let after = after {
             if after.isEmpty {
-                presenter.presentPosts(redditPostsResponse.data.children)
+                presenter.presentPosts(posts: redditPostsResponse.data.children, after: redditPostsResponse.data.after)
                 return
             }
-            presenter.presentNextPostsPage(redditPostsResponse.data.children)
+            presenter.presentNextPostsPage(posts: redditPostsResponse.data.children, after: redditPostsResponse.data.after)
             return
         }
-        presenter.presentPosts(redditPostsResponse.data.children)
+        presenter.presentPosts(posts: redditPostsResponse.data.children, after: redditPostsResponse.data.after)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  RedditPostTableViewCell.swift
+//  MainListTableViewCell.swift
 //  RedditApp
 //
 //  Created by Râmede on 10/08/21.
@@ -8,11 +8,11 @@
 import UIKit
 import SDWebImage
 
-protocol RedditPostTableViewCellDelegate: AnyObject {
-    func didTapOnDismiss(cell: RedditPostTableViewCell)
+protocol MainListTableViewCellDelegate: AnyObject {
+    func didTapOnDismiss(cell: MainListTableViewCell)
 }
  
-class RedditPostTableViewCell: UITableViewCell {
+class MainListTableViewCell: UITableViewCell {
     private lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -118,7 +118,7 @@ class RedditPostTableViewCell: UITableViewCell {
         return label
     }()
     
-    weak var delegate: RedditPostTableViewCellDelegate?
+    weak var delegate: MainListTableViewCellDelegate?
     
     var title: String = "" {
         didSet {

@@ -35,7 +35,7 @@ final class MainListView: UIView {
     private var redditPostsTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(RedditPostTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(MainListTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 300
         tableView.backgroundColor = .systemGray6
@@ -166,7 +166,7 @@ extension MainListView: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: "cell",
                 for: indexPath
-        ) as? RedditPostTableViewCell else { return UITableViewCell() }
+        ) as? MainListTableViewCell else { return UITableViewCell() }
         
         cell.delegate = self
         cell.author = dataSource[indexPath.row].data.author
@@ -186,8 +186,8 @@ extension MainListView: UITableViewDelegate {
     }
 }
 
-extension MainListView: RedditPostTableViewCellDelegate {
-    func didTapOnDismiss(cell: RedditPostTableViewCell) {
+extension MainListView: MainListTableViewCellDelegate {
+    func didTapOnDismiss(cell: MainListTableViewCell) {
         if let indexPath = redditPostsTableView.indexPath(for: cell) {
             dataSource.remove(at: indexPath.row)
             redditPostsTableView.deleteRows(at: [indexPath], with: .automatic)

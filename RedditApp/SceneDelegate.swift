@@ -14,15 +14,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
 
         let splitViewController =  UISplitViewController()
-        let mainListViewController = MainListViewController()
+        let mainListViewController = MainListFactory.make()
         let detailViewController = DetailViewController()
         mainListViewController.delegate = detailViewController
         splitViewController.viewControllers = [mainListViewController, detailViewController]
-        
+
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = splitViewController
         window.makeKeyAndVisible()
-        
+
         self.window = window
     }
 }

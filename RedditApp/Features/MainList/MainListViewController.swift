@@ -11,11 +11,28 @@ protocol MainListViewControllerDelegate: AnyObject {
     func didSelectPost(_ item: RedditChildreen)
 }
 
+protocol MainListDisplayable: AnyObject {
+    func displayPosts(_ posts: [RedditChildreen])
+    func displayNextPostsPage(_ posts: [RedditChildreen])
+    func displayLoading(_ isLoading: Bool)
+    func displayError()
+}
+
 class MainListViewController: UIViewController {
     private lazy var contentView = MainListView()
+    private let interactor: MainListInteractable
 
     weak var delegate: MainListViewControllerDelegate?
     
+    init(interactor: MainListInteractable) {
+      self.interactor = interactor
+      super.init(nibName: nil, bundle: .main)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func loadView() {
         view = contentView
     }
@@ -26,7 +43,7 @@ class MainListViewController: UIViewController {
         buildHierarchy()
         buildConstraints()
         contentView.delegate = self
-        fetchPost()
+        interactor.loadInitialInfo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,5 +96,23 @@ extension MainListViewController: MainListViewDelegate {
     
     func fetchNextPage(_ after: String) {
         fetchPost(after: after)
+    }
+}
+
+extension MainListViewController: MainListDisplayable {
+    func displayPosts(_ posts: [RedditChildreen]) {
+        contentView.dataSource = posts
+    }
+    
+    func displayNextPostsPage(_ posts: [RedditChildreen]) {
+        contentView.dataSource.append(contentsOf: posts)
+    }
+    
+    func displayLoading(_ isLoading: Bool) {
+
+    }
+    
+    func displayError() {
+
     }
 }

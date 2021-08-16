@@ -16,9 +16,13 @@ protocol  MainListViewDelegate: AnyObject {
 }
 
 final class MainListView: UIView {
-    private var isLoading: Bool = false
     private let refreshControl = UIRefreshControl()
-    
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.color = .systemBlue
+        return activityIndicator
+    }()
+
     private var headerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +85,18 @@ final class MainListView: UIView {
         }
     }
     
+    var isLoading: Bool = false {
+        didSet {
+            DispatchQueue.main.async {
+                if self.isLoading {
+                    self.activityIndicator.startAnimating()
+                    return
+                }
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -120,16 +136,20 @@ final class MainListView: UIView {
         redditPostsTableView.addSubview(refreshControl)
     }
     
-    @objc private func refresh() {
+    @objc
+    private func refresh() {
         delegate?.didPullToRefresh()
     }
     private func buildHierarchy() {
         headerView.addSubview(titleLabel)
         dismissContainerView.addSubview(dismissLabel)
+        
         addSubview(headerView)
         addSubview(redditPostsTableView)
         addSubview(dividerView)
         addSubview(dismissContainerView)
+        
+        redditPostsTableView.backgroundView = activityIndicator
     }
     
     private func buildConstraints() {
@@ -193,6 +213,7 @@ extension MainListView: UITableViewDataSource {
         cell.comments = dataSource[indexPath.row].data.comments
         cell.title = dataSource[indexPath.row].data.title
         cell.imageUrl = dataSource[indexPath.row].data.imageUrl
+        cell.created = dataSource[indexPath.row].data.created
         cell.didRead = dataSource[indexPath.row].didRead ?? false
         
         return cell

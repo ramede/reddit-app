@@ -29,6 +29,8 @@ extension MainListInteractor: MainListInteractable {
     }
     
     func getRedditPosts(after: String?) {
+        presenter.presentLoading(true)
+        
         // TODO: Create a URL Builder
         let pageSize = 5
         let api = "https://www.reddit.com"
@@ -42,6 +44,7 @@ extension MainListInteractor: MainListInteractable {
         
         // TODO: Create services and portocols interfaces
         NetworkDispatcher().execute(sessionURL: url!) { (result: Result<RedditPostsResponse, Error>) in
+            self.presenter.presentLoading(false)
             switch result {
             case .success(let redditPostsResponse):
                 self.handleRedditResponse(after: after, with: redditPostsResponse)

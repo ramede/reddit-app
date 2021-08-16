@@ -10,34 +10,40 @@ import Foundation
 
 enum RedditAppError: Error {
     case networking(code: Int, message: String)
+    case parser(code: Int, message: String)
+    case fetch(code: Int, message: String)
+    case generic(code: Int, message: String)
 }
-
-//public enum Result {
-//    case success(Data)
-//    case failure(Error)
-//}
 
 struct NetworkDispatcher {
     func execute<T: Decodable>(sessionURL: URL, completion : @escaping (Result<T, Error>) -> Void) {
         let session = URLSession(configuration: .default)
         let dataTask = session.dataTask(with: sessionURL) { (data, response, error) in
+            
+            // TODO: handle status code
+            if let httpResponse = response as? HTTPURLResponse {
+                print(httpResponse.statusCode)
+            }
+            
             if error == nil {
                 if let safeData = data {
                     do {
                         let decodedData = try JSONDecoder().decode(T.self, from: safeData)
                         completion(.success(decodedData))
                     } catch {
-                        print("error while parsing data \(error)")
-                        completion(.failure(RedditAppError.networking(code: 500, message: "Error")))
+                        completion(.failure(RedditAppError.parser(code: -1, message: "Error while parsing data")))
                     }
                 } else {
-                    debugPrint("failed to fetch data")
-                    completion(.failure(RedditAppError.networking(code: 500, message: "Error")))
+                    completion(.failure(RedditAppError.fetch(code: -2, message: "Failed to fetch data")))
                 }
             }
             else {
-                print("error in data task is \(String(describing: error))")
-                completion(.failure(RedditAppError.networking(code: 500, message: "Error")))
+                completion(.failure(RedditAppError.generic(
+                                        code: -3,
+                                        message: "Error in data task is \(String(describing: error))"
+                        )
+                    )
+                )
             }
         }
         dataTask.resume()

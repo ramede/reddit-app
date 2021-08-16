@@ -17,6 +17,7 @@ protocol MainListDisplayable: AnyObject {
     func displayPosts(with posts: [RedditChildreen], after: String?)
     func displayNextPostsPage(with posts: [RedditChildreen], after: String?)
     func displayPostAsRead(_ idx: Int)
+    func displayLoading(_ isLoading: Bool)
 }
 
 class MainListViewController: UIViewController {
@@ -103,5 +104,9 @@ extension MainListViewController: MainListDisplayable {
     
     func displayPostAsRead(_ idx: Int) {
         contentView.markPostAsRead(on: idx)
+    }
+    
+    func displayLoading(_ isLoading: Bool) {
+        contentView.isLoading = isLoading
     }
 }

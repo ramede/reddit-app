@@ -14,6 +14,7 @@ private final class MainListPresenterSpy: MainListPresentable {
     private(set) var dismissAllPostsCallsCount = 0
     private(set) var dimissPostCallsCount = 0
     private(set) var displayPostAsReadCallsCount = 0
+    private(set) var presentLoadingCallsCount = 0
     
     var viewController: MainListDisplayable?
     
@@ -35,6 +36,10 @@ private final class MainListPresenterSpy: MainListPresentable {
     
     func displayPostAsRead(_ idx: Int) {
         displayPostAsReadCallsCount += 1
+    }
+    
+    func presentLoading(_ isLoading: Bool) {
+        presentLoadingCallsCount += 1
     }
 }
 
@@ -69,6 +74,5 @@ final class MainListInteractorTests: XCTestCase {
         
         XCTAssertEqual(presenterSpy.displayPostAsReadCallsCount, 1)
     }
-
 }
 

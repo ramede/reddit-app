@@ -43,6 +43,16 @@ class MainListTableViewCell: UITableViewCell {
         label.font = UIFont.boldSystemFont(ofSize: 18.0)
         return label
     }()
+    
+    private lazy var timeAgoLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        label.textColor = .systemBlue
+        label.textAlignment = .right
+        label.font = label.font.withSize(15.0)
+        return label
+    }()
 
     private lazy var middleContentView: UIView = {
         let view = UIView()
@@ -169,6 +179,12 @@ class MainListTableViewCell: UITableViewCell {
         }
     }
 
+    var created: Int = 0 {
+        didSet {
+            timeAgoLabel.text = DateUtils.castToDate(created).timeAgoDisplay()
+        }
+    }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -190,6 +206,7 @@ class MainListTableViewCell: UITableViewCell {
         
         topContentView.addSubview(readStatusImageView)
         topContentView.addSubview(authorLabel)
+        topContentView.addSubview(timeAgoLabel)
 
         middleContentView.addSubview(postImageView)
         middleContentView.addSubview(titleLabel)
@@ -222,8 +239,11 @@ class MainListTableViewCell: UITableViewCell {
             
             authorLabel.centerYAnchor.constraint(equalTo: topContentView.centerYAnchor),
             authorLabel.leadingAnchor.constraint(equalTo: readStatusImageView.trailingAnchor, constant: 8),
-            authorLabel.trailingAnchor.constraint(equalTo: topContentView.trailingAnchor, constant: -12),
             
+            timeAgoLabel.centerYAnchor.constraint(equalTo: topContentView.centerYAnchor),
+            timeAgoLabel.leadingAnchor.constraint(equalTo: authorLabel.trailingAnchor, constant: 8),
+            timeAgoLabel.trailingAnchor.constraint(equalTo: topContentView.trailingAnchor, constant: -12),
+
             middleContentView.heightAnchor.constraint(equalToConstant: 80),
             
             postImageView.leadingAnchor.constraint(equalTo: middleContentView.leadingAnchor, constant: 12),

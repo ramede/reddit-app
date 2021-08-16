@@ -14,6 +14,7 @@ protocol MainListPresentable: AnyObject {
     func dismissAllPosts()
     func dimissPost(_ idx: IndexPath)
     func displayPostAsRead(_ idx: Int)
+    func presentLoading(_ isLoading: Bool)
 }
 
 final class MainListPresenter {
@@ -39,6 +40,10 @@ extension MainListPresenter: MainListPresentable {
     
     func displayPostAsRead(_ idx: Int) {
         viewController?.displayPostAsRead(idx)
+    }
+    
+    func presentLoading(_ isLoading: Bool) {
+        viewController?.displayLoading(isLoading)
     }
 }
 

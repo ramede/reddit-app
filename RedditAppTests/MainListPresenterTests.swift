@@ -14,6 +14,7 @@ private final class MainListViewControllerSpy: MainListDisplayable {
     private(set) var displayPostsCallsCount = 0
     private(set) var displayNextPostsPageCallsCount = 0
     private(set) var displayPostsAsReadCallsCount = 0
+    private(set) var displayLoadingCallsCount = 0
     
     private(set) var postsReceived: [RedditChildreen] = []
     
@@ -41,6 +42,11 @@ private final class MainListViewControllerSpy: MainListDisplayable {
         displayPostsAsReadCallsCount += 1
         postsReceived[idx].didRead = true
     }
+    
+    func displayLoading(_ isLoading: Bool) {
+        displayLoadingCallsCount += 1
+    }
+
 }
 
 final class MainListPresenterTests: XCTestCase {
@@ -156,6 +162,12 @@ final class MainListPresenterTests: XCTestCase {
         
         XCTAssertEqual(viewSpy.postsReceived[2].didRead, true)
         XCTAssertEqual(viewSpy.displayPostsAsReadCallsCount, 1)
+    }
+    
+    func testPresentLoading_WhenPresentLoadingIsCalled_ShouldDisplayLoading() {
+        sut.presentLoading(true)
+        
+        XCTAssertEqual(viewSpy.displayLoadingCallsCount, 1)
     }
 
 }

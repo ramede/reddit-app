@@ -11,8 +11,9 @@ protocol MainListPresentable: AnyObject {
     var viewController: MainListDisplayable? { get set }
     func presentPosts(posts: [RedditChildreen], after: String?)
     func presentNextPostsPage(posts: [RedditChildreen], after: String?)
-    func presentLoading(_ isLoading: Bool)
-    func presentError()
+    func dismissAllPosts()
+    func dimissPost(_ idx: IndexPath)
+    func displayPostAsRead(_ idx: Int)
 }
 
 final class MainListPresenter {
@@ -28,12 +29,16 @@ extension MainListPresenter: MainListPresentable {
         viewController?.displayNextPostsPage(with: posts, after: after)
     }
     
-    func presentLoading(_ isLoading: Bool) {
-        
+    func dismissAllPosts() {
+        viewController?.dismissAllPosts()
     }
     
-    func presentError() {
-        
+    func dimissPost(_ idx: IndexPath) {
+        viewController?.dismissPost(idx)
+    }
+    
+    func displayPostAsRead(_ idx: Int) {
+        viewController?.displayPostAsRead(idx)
     }
 }
 

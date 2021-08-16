@@ -9,8 +9,10 @@ import Foundation
 
 protocol MainListInteractable: AnyObject {
     func loadInitialInfo()
-    func dissmissAll()
     func getRedditPosts(after: String?)
+    func dismissAllPosts()
+    func dimissPost(_ idx: IndexPath)
+    func displayPostAsRead(_ idx: Int)
 }
 
 final class MainListInteractor {
@@ -27,7 +29,7 @@ extension MainListInteractor: MainListInteractable {
     }
     
     func getRedditPosts(after: String?) {
-        // Build URL
+        // TODO: Create a URL Builder
         let pageSize = 5
         let api = "https://www.reddit.com"
         let endpoint = "/top/.json?limit=\(String(pageSize))"
@@ -36,10 +38,9 @@ extension MainListInteractor: MainListInteractable {
         if let after = after {
             afterCondicional = "&after=\(after)"
         }
-        
         let url = URL(string: api + endpoint + afterCondicional)
         
-        // Fetch
+        // TODO: Create services and portocols interfaces
         NetworkDispatcher().execute(sessionURL: url!) { (result: Result<RedditPostsResponse, Error>) in
             switch result {
             case .success(let redditPostsResponse):
@@ -49,11 +50,19 @@ extension MainListInteractor: MainListInteractable {
             }
         }
     }
-
-    func dissmissAll() {
-        
+    
+    func dismissAllPosts() {
+        presenter.dismissAllPosts()
     }
     
+    func dimissPost(_ idx: IndexPath) {
+        presenter.dimissPost(idx)
+    }
+    
+    func displayPostAsRead(_ idx: Int) {
+        presenter.displayPostAsRead(idx)
+    }
+
     private func handleRedditResponse(after: String?, with redditPostsResponse: RedditPostsResponse) {
         if let after = after {
             if after.isEmpty {

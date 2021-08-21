@@ -206,14 +206,29 @@ extension MainListView: UITableViewDataSource {
                 withIdentifier: "cell",
                 for: indexPath
         ) as? MainListTableViewCell else { return UITableViewCell() }
+                
+        cell.tag = indexPath.row
         
+        // TODO: make private
+        cell.postImageView.image = nil
+
         cell.delegate = self
         cell.author = dataSource[indexPath.row].data.author
         cell.comments = dataSource[indexPath.row].data.comments
         cell.title = dataSource[indexPath.row].data.title
-        cell.imageUrl = dataSource[indexPath.row].data.imageUrl
         cell.created = dataSource[indexPath.row].data.created
         cell.didRead = dataSource[indexPath.row].didRead ?? false
+        
+        // TODO: Move to interactor
+        let task = URLSession.shared.dataTask(with: URL(string: dataSource[indexPath.row].data.imageUrl!)!) { data, response, error in
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async() {
+                if cell.tag == indexPath.row {
+                    cell.postImageView.image = UIImage(data: data)
+                }
+            }
+        }
+        task.resume()
         
         return cell
     }

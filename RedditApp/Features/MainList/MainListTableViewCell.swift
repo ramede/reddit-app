@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 protocol MainListTableViewCellDelegate: AnyObject {
     func didTapOnDismiss(cell: MainListTableViewCell)
@@ -61,11 +60,11 @@ class MainListTableViewCell: UITableViewCell {
         return view
     }()
 
-    private lazy var postImageView: UIImageView = {
+    //TODO: change to private
+    public lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         return imageView
     }()
     
@@ -128,6 +127,8 @@ class MainListTableViewCell: UITableViewCell {
         return label
     }()
     
+    private var didDownload = false
+    
     weak var delegate: MainListTableViewCellDelegate?
     
     var title: String = "" {
@@ -157,19 +158,11 @@ class MainListTableViewCell: UITableViewCell {
     
     var imageUrl: String? = "" {
         didSet {
-            guard let imageUrl = imageUrl else {
-                self.postImageView.image = UIImage(named: "reddit")
-                return
-            }
-            self.postImageView.sd_setImage(
-                with: URL(string: imageUrl),
-                placeholderImage: UIImage(named: "reddit"), completed: { (image, error, cacheType, url) -> Void in
-                    if ((error) != nil) {
-                        self.postImageView.image = UIImage(named: "reddit")
-                    } else {
-                        self.postImageView.image = image
-                    }
-                })
+//            guard let imageUrl = imageUrl else {
+//                self.postImageView.image = UIImage(named: "reddit")
+//                return
+//            }
+//            downloadImage(from: URL(string: imageUrl)!)
         }
     }
     

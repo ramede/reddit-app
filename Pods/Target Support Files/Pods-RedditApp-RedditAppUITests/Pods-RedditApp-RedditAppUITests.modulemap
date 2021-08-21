@@ -1,6 +1,0 @@
-framework module Pods_RedditApp_RedditAppUITests {
-  umbrella header "Pods-RedditApp-RedditAppUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

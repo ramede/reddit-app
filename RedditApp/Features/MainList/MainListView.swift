@@ -99,7 +99,6 @@ final class MainListView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupGestures()
         setupTableView()
         buildHierarchy()
@@ -166,7 +165,7 @@ final class MainListView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 12),
 
             redditPostsTableView.leftAnchor.constraint(equalTo: leftAnchor),
-            redditPostsTableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            redditPostsTableView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             redditPostsTableView.rightAnchor.constraint(equalTo: rightAnchor),
             
             dividerView.bottomAnchor.constraint(equalTo: dismissContainerView.topAnchor),
@@ -176,7 +175,7 @@ final class MainListView: UIView {
             
             dismissContainerView.leftAnchor.constraint(equalTo: leftAnchor),
             dismissContainerView.rightAnchor.constraint(equalTo: rightAnchor),
-            dismissContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            dismissContainerView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             dismissContainerView.heightAnchor.constraint(equalToConstant: 40),
             
             dismissLabel.trailingAnchor.constraint(equalTo: dismissContainerView.trailingAnchor),

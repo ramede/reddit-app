@@ -84,7 +84,7 @@ final class DetailView: UIView {
     
     private func buildConstraints() {
         NSLayoutConstraint.activate([
-            authorLabel.topAnchor.constraint(equalTo: topAnchor, constant: 36),
+            authorLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 36),
             authorLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             postImageView.widthAnchor.constraint(equalToConstant: 100),

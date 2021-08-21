@@ -48,9 +48,19 @@ class MainListViewController: UIViewController {
         interactor.loadInitialInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        view.backgroundColor = .systemGray5
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        view.backgroundColor = .systemGray5
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     private func buildHierarchy() {
@@ -72,6 +82,14 @@ extension MainListViewController: MainListViewDelegate {
     func didSelectPost(item: RedditChildreen, idx: Int) {
         delegate?.didSelectPost(item)
         interactor.displayPostAsRead(idx)
+
+        if
+          let detailViewController = delegate as? DetailViewController,
+          let detailNavigationController = detailViewController.navigationController {
+            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
+        }
+      
+
     }
     
     func didPullToRefresh() {

@@ -9,6 +9,7 @@ import UIKit
 
 protocol MainListTableViewCellDelegate: AnyObject {
     func didTapOnDismiss(cell: MainListTableViewCell)
+    func didTapOnSaveImage(_ image: UIImage)
 }
  
 class MainListTableViewCell: UITableViewCell {
@@ -65,6 +66,7 @@ class MainListTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -277,10 +279,20 @@ class MainListTableViewCell: UITableViewCell {
     private func setupGestures() {
         let dimissGesture = UITapGestureRecognizer(target: self, action: #selector(dismissAction))
         dismissContainerView.addGestureRecognizer(dimissGesture)
+        
+        let saveImageGesture = UITapGestureRecognizer(target: self, action: #selector(saveImageAction))
+        postImageView.addGestureRecognizer(saveImageGesture)
     }
     
     @objc
     private func dismissAction() {
         delegate?.didTapOnDismiss(cell: self)
     }
+
+    @objc
+    private func saveImageAction() {
+        guard let image = postImageView.image else { return }
+        delegate?.didTapOnSaveImage(image)
+    }
+
 }

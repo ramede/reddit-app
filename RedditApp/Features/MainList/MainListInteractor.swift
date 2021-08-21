@@ -5,7 +5,7 @@
 //  Created by Râmede on 15/08/21.
 //
 
-import Foundation
+import UIKit
 
 protocol MainListInteractable: AnyObject {
     func loadInitialInfo()
@@ -13,6 +13,7 @@ protocol MainListInteractable: AnyObject {
     func dismissAllPosts()
     func dimissPost(_ idx: IndexPath)
     func displayPostAsRead(_ idx: Int)
+    func saveImage(_ image: UIImage)
 }
 
 final class MainListInteractor {
@@ -64,6 +65,11 @@ extension MainListInteractor: MainListInteractable {
     
     func displayPostAsRead(_ idx: Int) {
         presenter.displayPostAsRead(idx)
+    }
+    
+    func saveImage(_ image: UIImage) {
+        let imageSaver = ImageSaver()
+        imageSaver.writeToPhotoAlbum(image: image)
     }
 
     private func handleRedditResponse(after: String?, with redditPostsResponse: RedditPostsResponse) {

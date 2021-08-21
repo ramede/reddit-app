@@ -27,6 +27,7 @@
 		87A7926E26C9949100CDDDA0 /* MainListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A7926D26C9949100CDDDA0 /* MainListInteractor.swift */; };
 		87A7927126C995C900CDDDA0 /* MainListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A7927026C995C900CDDDA0 /* MainListPresenter.swift */; };
 		87A7927326C9A1D000CDDDA0 /* MainListFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A7927226C9A1D000CDDDA0 /* MainListFactory.swift */; };
+		87C38A3A26D1976100087715 /* ssss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C38A3926D1976100087715 /* ssss.swift */; };
 		87FA5AB426C3577C00BA134B /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FA5AB326C3577C00BA134B /* MainListViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +78,7 @@
 		87A7926D26C9949100CDDDA0 /* MainListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListInteractor.swift; sourceTree = "<group>"; };
 		87A7927026C995C900CDDDA0 /* MainListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListPresenter.swift; sourceTree = "<group>"; };
 		87A7927226C9A1D000CDDDA0 /* MainListFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListFactory.swift; sourceTree = "<group>"; };
+		87C38A3926D1976100087715 /* ssss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ssss.swift; sourceTree = "<group>"; };
 		87FA5AB326C3577C00BA134B /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8728A68E26CAE1F90005532C /* DateUtils.swift */,
+				87C38A3926D1976100087715 /* ssss.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87036C2B26C3432500AEA09E /* DetailViewController.swift in Sources */,
+				87C38A3A26D1976100087715 /* ssss.swift in Sources */,
 				87A7927326C9A1D000CDDDA0 /* MainListFactory.swift in Sources */,
 				879F8D1026C86EA500FE0305 /* DetailView.swift in Sources */,
 				879F8D0E26C8159200FE0305 /* MainListView.swift in Sources */,

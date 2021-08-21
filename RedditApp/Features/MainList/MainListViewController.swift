@@ -99,6 +99,10 @@ extension MainListViewController: MainListViewDelegate {
     func fetchNextPage(_ after: String) {
         interactor.getRedditPosts(after: after)
     }
+    
+    func didTapOnSaveImage(_ image: UIImage) {
+        interactor.saveImage(image)
+    }
 }
 
 extension MainListViewController: MainListDisplayable {

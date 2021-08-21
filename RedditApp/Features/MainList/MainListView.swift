@@ -13,6 +13,7 @@ protocol  MainListViewDelegate: AnyObject {
     func didSelectPost(item: RedditChildreen, idx: Int)
     func didPullToRefresh()
     func fetchNextPage(_ after: String)
+    func didTapOnSaveImage(_ image: UIImage)
 }
 
 final class MainListView: UIView {
@@ -245,6 +246,10 @@ extension MainListView: MainListTableViewCellDelegate {
         if let indexPath = redditPostsTableView.indexPath(for: cell) {
             delegate?.didTapOnDimissPost(idx: indexPath)
         }
+    }
+    
+    func didTapOnSaveImage(_ image: UIImage) {
+        delegate?.didTapOnSaveImage(image)
     }
 }
 

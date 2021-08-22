@@ -16,6 +16,9 @@ private final class MainListPresenterSpy: MainListPresentable {
     private(set) var displayPostAsReadCallsCount = 0
     private(set) var presentLoadingCallsCount = 0
     
+    private(set) var presentDownloadImageCallsCount = 0
+    private(set) var presentSaveImageAlertCallsCount = 0
+    
     var viewController: MainListDisplayable?
     
     func presentPosts(posts: [RedditChildreen], after: String?) {
@@ -40,6 +43,14 @@ private final class MainListPresenterSpy: MainListPresentable {
     
     func presentLoading(_ isLoading: Bool) {
         presentLoadingCallsCount += 1
+    }
+    
+    func presentDownloadImage(_ image: Data?, on idx: Int) {
+        presentDownloadImageCallsCount += 1
+    }
+    
+    func presentSaveImageAlert(_ image: UIImage) {
+        presentSaveImageAlertCallsCount  += 1
     }
 }
 
@@ -74,5 +85,12 @@ final class MainListInteractorTests: XCTestCase {
         
         XCTAssertEqual(presenterSpy.displayPostAsReadCallsCount, 1)
     }
+    
+    func testPresentSaveImageAllert_WhenPresentSaveImageAllertIsCalled_ShouldCalledSaveImageAlertPresenter() {
+        sut.presentSaveImageAllert(UIImage(named: "reddit") ?? UIImage())
+        
+        XCTAssertEqual(presenterSpy.presentSaveImageAlertCallsCount, 1)
+    }
+
 }
 

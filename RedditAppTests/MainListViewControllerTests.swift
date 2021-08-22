@@ -15,6 +15,10 @@ private final class MainListInteractorSpy: MainListInteractable {
     private(set) var dismissPostCallsCount = 0
     private(set) var displayPostAsReadCallsCount = 0
     
+    private(set) var saveImageCallsCount = 0
+    private(set) var fetchImageCallsCount = 0
+    private(set) var presentSaveImageAllertCallsCount = 0
+    
     func loadInitialInfo() {
         loadInitialInfoCallsCount += 1
     }
@@ -33,6 +37,18 @@ private final class MainListInteractorSpy: MainListInteractable {
     
     func displayPostAsRead(_ idx: Int) {
         displayPostAsReadCallsCount += 1
+    }
+    
+    func saveImage(_ image: UIImage) {
+        saveImageCallsCount += 1
+    }
+    
+    func fetchImage(from url: String, with idx: Int) {
+        fetchImageCallsCount += 1
+    }
+    
+    func presentSaveImageAllert(_ image: UIImage) {
+        presentSaveImageAllertCallsCount += 1
     }
 }
 
@@ -56,21 +72,27 @@ final class MainLisViewControllerTests: XCTestCase {
         XCTAssertEqual(interactorSpy.loadInitialInfoCallsCount, 1)
     }
     
-    func testDismissAllPosts_WhenDismissAllPostsIsTapped_ShouldCalledDismissAllPostsInteractor() {
+    func testDismissAllPosts_WhenDismissAllPostsIsTapped_ShouldCallDismissAllPostsInteractor() {
         sut.didTapOnDimissAll()
         
         XCTAssertEqual(interactorSpy.dismissAllPostsCallsCount, 1)
     }
     
-    func testDismissPost_WhenDismissAPostIsTapped_ShouldCalledDismissAPostInteractor() {
+    func testDismissPost_WhenDismissAPostIsTapped_ShouldCallDismissAPostInteractor() {
         sut.didTapOnDimissPost(idx: IndexPath(item: 1, section: 1))
         
         XCTAssertEqual(interactorSpy.dismissPostCallsCount, 1)
     }
     
-    func testDisplayPostAsRead_WhenDisplayPostAsReadIsTapped_ShouldCalledDisplayPostAsReadInteractor() {
+    func testDisplayPostAsRead_WhenDisplayPostAsReadIsTapped_ShouldCallDisplayPostAsReadInteractor() {
         sut.didSelectPost(item: RedditChildreen.mock(), idx: 3)
         
         XCTAssertEqual(interactorSpy.displayPostAsReadCallsCount, 1)
+    }
+    
+    func tesDidTapOnSaveImg_WhenImageIsTapped_ShouldCallPresentSaveImageAllertInteractor(){
+        sut.didTapOnSaveImage(UIImage(named: "reddit") ?? UIImage())
+        
+        XCTAssertEqual(interactorSpy.presentSaveImageAllertCallsCount, 1)
     }
 }

@@ -14,6 +14,7 @@ protocol  MainListViewDelegate: AnyObject {
     func didPullToRefresh()
     func fetchNextPage(_ after: String)
     func didTapOnSaveImage(_ image: UIImage)
+    func fecthImage(from url: String, with idx: Int)
 }
 
 final class MainListView: UIView {
@@ -118,7 +119,9 @@ final class MainListView: UIView {
     func markPostAsRead(on idx: Int) {
         if idx >= dataSource.startIndex && idx < dataSource.endIndex {
             dataSource[idx].didRead = true
-            redditPostsTableView.reloadData()
+            DispatchQueue.main.async() {
+                self.redditPostsTableView.reloadData()
+            }
         }
     }
     
@@ -126,6 +129,16 @@ final class MainListView: UIView {
         if idx.row >= dataSource.startIndex && idx.row < dataSource.endIndex {
             dataSource.remove(at: idx.row)
             redditPostsTableView.deleteRows(at: [idx], with: .fade)
+        }
+    }
+    
+    func displayDownloadImage(_ image: Data?, on idx: Int) {
+        if idx >= dataSource.startIndex && idx < dataSource.endIndex {
+            dataSource[idx].image = image
+            dataSource[idx].didFetchImage = true
+            DispatchQueue.main.async() {
+                self.redditPostsTableView.reloadData()
+            }
         }
     }
     
@@ -208,28 +221,20 @@ extension MainListView: UITableViewDataSource {
                 for: indexPath
         ) as? MainListTableViewCell else { return UITableViewCell() }
                 
-        cell.tag = indexPath.row
-        
-        // TODO: make private
-        cell.postImageView.image = nil
-
         cell.delegate = self
         cell.author = dataSource[indexPath.row].data.author
         cell.comments = dataSource[indexPath.row].data.comments
         cell.title = dataSource[indexPath.row].data.title
         cell.created = dataSource[indexPath.row].data.created
         cell.didRead = dataSource[indexPath.row].didRead ?? false
+        cell.imageData = dataSource[indexPath.row].image
         
-        // TODO: Move to interactor
-        let task = URLSession.shared.dataTask(with: URL(string: dataSource[indexPath.row].data.imageUrl!)!) { data, response, error in
-            guard let data = data, error == nil else { return }
-            DispatchQueue.main.async() {
-                if cell.tag == indexPath.row {
-                    cell.postImageView.image = UIImage(data: data)
-                }
+        if let imageUrl = dataSource[indexPath.row].data.imageUrl {
+            if dataSource[indexPath.row].didFetchImage == nil ||
+               dataSource[indexPath.row].didFetchImage == false {
+                delegate?.fecthImage(from: imageUrl, with: indexPath.row)
             }
         }
-        task.resume()
         
         return cell
     }

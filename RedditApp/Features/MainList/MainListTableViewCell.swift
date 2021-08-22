@@ -61,8 +61,7 @@ class MainListTableViewCell: UITableViewCell {
         return view
     }()
 
-    //TODO: change to private
-    public lazy var postImageView: UIImageView = {
+    private lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -158,13 +157,14 @@ class MainListTableViewCell: UITableViewCell {
         }
     }
     
-    var imageUrl: String? = "" {
+    var imageData: Data? = nil {
         didSet {
-//            guard let imageUrl = imageUrl else {
-//                self.postImageView.image = UIImage(named: "reddit")
-//                return
-//            }
-//            downloadImage(from: URL(string: imageUrl)!)
+            guard let data = imageData,
+                  let image = UIImage(data: data) else {
+                self.postImageView.image = UIImage(named: "reddit")
+                return
+            }
+            postImageView.image = image
         }
     }
     

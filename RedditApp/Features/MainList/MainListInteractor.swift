@@ -14,6 +14,8 @@ protocol MainListInteractable: AnyObject {
     func dimissPost(_ idx: IndexPath)
     func displayPostAsRead(_ idx: Int)
     func saveImage(_ image: UIImage)
+    func fetchImage(from url: String, with idx: Int)
+    func presentSaveImageAllert(_ image: UIImage)
 }
 
 final class MainListInteractor {
@@ -43,7 +45,7 @@ extension MainListInteractor: MainListInteractable {
         }
         let url = URL(string: api + endpoint + afterCondicional)
         
-        // TODO: Create services and portocols interfaces
+        // TODO: Create services and protocols interfaces to became testable
         NetworkDispatcher().execute(sessionURL: url!) { (result: Result<RedditPostsResponse, Error>) in
             self.presenter.presentLoading(false)
             switch result {
@@ -55,6 +57,19 @@ extension MainListInteractor: MainListInteractable {
         }
     }
     
+    func fetchImage(from url: String, with idx: Int) {
+        // TODO: Create services and protocols interfaces to became testable
+        NetworkDispatcher().downloadImage(from: url) { (result: Result<Data?, Error>) in
+            switch result {
+            case .success(let data):
+                guard let data = data else { return }
+                self.presenter.presentDownloadImage(data, on: idx)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
     func dismissAllPosts() {
         presenter.dismissAllPosts()
     }
@@ -67,11 +82,15 @@ extension MainListInteractor: MainListInteractable {
         presenter.displayPostAsRead(idx)
     }
     
+    func presentSaveImageAllert(_ image: UIImage) {
+        presenter.presentSaveImageAlert(image)
+    }
+    
     func saveImage(_ image: UIImage) {
         let imageSaver = ImageSaver()
         imageSaver.writeToPhotoAlbum(image: image)
     }
-
+    
     private func handleRedditResponse(after: String?, with redditPostsResponse: RedditPostsResponse) {
         if let after = after {
             if after.isEmpty {

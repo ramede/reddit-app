@@ -53,21 +53,17 @@ final class DetailView: UIView {
         }
     }
     
-    var imageUrl: String? = "" {
+    var imageData: Data? = nil {
         didSet {
-            self.postImageView.image = nil
-            
-            // TODO: Move to interactor
-            let task = URLSession.shared.dataTask(with: URL(string: imageUrl!)!) { data, response, error in
-                guard let data = data, error == nil else { return }
-                DispatchQueue.main.async() {
-                    self.postImageView.image = UIImage(data: data)
-                }
+            guard let data = imageData,
+                  let image = UIImage(data: data) else {
+                self.postImageView.image = UIImage(named: "reddit")
+                return
             }
-            task.resume()
+            postImageView.image = image
         }
     }
-    
+        
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

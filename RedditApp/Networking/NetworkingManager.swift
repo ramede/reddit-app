@@ -16,6 +16,20 @@ enum RedditAppError: Error {
 }
 
 struct NetworkDispatcher {
+
+    func downloadImage(from sessionURL: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        guard let url = URL(string: sessionURL) else { return }
+        let session = URLSession(configuration: .default)
+        let dataTask = session.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(.failure(RedditAppError.fetch(code: -2, message: "Failed to fetch data")))
+                return
+            }
+            completion(.success(data))
+        }
+        dataTask.resume()
+    }
+    
     func execute<T: Decodable>(sessionURL: URL, completion : @escaping (Result<T, Error>) -> Void) {
         let session = URLSession(configuration: .default)
         let dataTask = session.dataTask(with: sessionURL) { (data, response, error) in

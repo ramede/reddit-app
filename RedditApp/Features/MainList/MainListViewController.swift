@@ -18,6 +18,8 @@ protocol MainListDisplayable: AnyObject {
     func displayNextPostsPage(with posts: [RedditChildreen], after: String?)
     func displayPostAsRead(_ idx: Int)
     func displayLoading(_ isLoading: Bool)
+    func displayDownloadedImage(_ image: Data?, on idx: Int)
+    func presentSaveImageAllert(_ image: UIImage)
 }
 
 class MainListViewController: UIViewController {
@@ -68,6 +70,14 @@ class MainListViewController: UIViewController {
     
     private func buildConstraints() {
     }
+    
+    // TODO: Move to presenter
+    private func showDetail() {
+        if let detailViewController = delegate as? DetailViewController,
+           let detailNavigationController = detailViewController.navigationController {
+            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
+        }
+    }
 }
 
 extension MainListViewController: MainListViewDelegate {
@@ -82,14 +92,7 @@ extension MainListViewController: MainListViewDelegate {
     func didSelectPost(item: RedditChildreen, idx: Int) {
         delegate?.didSelectPost(item)
         interactor.displayPostAsRead(idx)
-
-        if
-          let detailViewController = delegate as? DetailViewController,
-          let detailNavigationController = detailViewController.navigationController {
-            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
-        }
-      
-
+        showDetail()
     }
     
     func didPullToRefresh() {
@@ -101,7 +104,11 @@ extension MainListViewController: MainListViewDelegate {
     }
     
     func didTapOnSaveImage(_ image: UIImage) {
-        interactor.saveImage(image)
+        interactor.presentSaveImageAllert(image)
+    }
+
+    func fecthImage(from url: String, with idx: Int) {
+        interactor.fetchImage(from: url, with: idx)
     }
 }
 
@@ -130,5 +137,18 @@ extension MainListViewController: MainListDisplayable {
     
     func displayLoading(_ isLoading: Bool) {
         contentView.isLoading = isLoading
+    }
+    
+    func displayDownloadedImage(_ image: Data?, on idx: Int) {
+        contentView.displayDownloadImage(image, on: idx)
+    }
+    
+    func presentSaveImageAllert(_ image: UIImage) {
+        let alert = UIAlertController(title: "Hello!", message: "Do you really want to save this image?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            self.interactor.saveImage(image)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }

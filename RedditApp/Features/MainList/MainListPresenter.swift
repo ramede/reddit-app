@@ -15,6 +15,8 @@ protocol MainListPresentable: AnyObject {
     func dimissPost(_ idx: IndexPath)
     func displayPostAsRead(_ idx: Int)
     func presentLoading(_ isLoading: Bool)
+    func presentDownloadImage(_ image: Data?, on idx: Int)
+    func presentSaveImageAlert(_ image: UIImage)
 }
 
 final class MainListPresenter {
@@ -44,6 +46,14 @@ extension MainListPresenter: MainListPresentable {
     
     func presentLoading(_ isLoading: Bool) {
         viewController?.displayLoading(isLoading)
+    }
+    
+    func presentDownloadImage(_ image: Data?, on idx: Int) {
+        viewController?.displayDownloadedImage(image, on: idx)
+    }
+    
+    func presentSaveImageAlert(_ image: UIImage)  {
+        viewController?.presentSaveImageAllert(image)
     }
 }
 

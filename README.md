@@ -18,7 +18,7 @@ This is a iOS study that covered some important foundations like VIP architectur
 
 ## TODOs
 
-- [ ] Creating a URL and Request builder;
+- [ ] Creating the URL and Request builder;
 - [ ] App state-preservation/restoration
 
 

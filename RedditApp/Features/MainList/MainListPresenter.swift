@@ -9,8 +9,8 @@ import UIKit
 
 protocol MainListPresentable: AnyObject {
     var viewController: MainListDisplayable? { get set }
-    func presentPosts(posts: [RedditChildreen], after: String?)
-    func presentNextPostsPage(posts: [RedditChildreen], after: String?)
+    func presentPosts(posts: [RedditChildren], after: String?)
+    func presentNextPostsPage(posts: [RedditChildren], after: String?)
     func dismissAllPosts()
     func dimissPost(_ idx: IndexPath)
     func displayPostAsRead(_ idx: Int)
@@ -24,11 +24,11 @@ final class MainListPresenter {
 }
 
 extension MainListPresenter: MainListPresentable {
-    func presentPosts(posts: [RedditChildreen], after: String?) {
+    func presentPosts(posts: [RedditChildren], after: String?) {
         viewController?.displayPosts(with: posts, after: after)
     }
 
-    func presentNextPostsPage(posts: [RedditChildreen], after: String?) {
+    func presentNextPostsPage(posts: [RedditChildren], after: String?) {
         viewController?.displayNextPostsPage(with: posts, after: after)
     }
     
@@ -37,7 +37,8 @@ extension MainListPresenter: MainListPresentable {
     }
     
     func dimissPost(_ idx: IndexPath) {
-        viewController?.dismissPost(idx)
+        guard let viewController = viewController else { return }
+        viewController.dismissPost(idx)
     }
     
     func displayPostAsRead(_ idx: Int) {

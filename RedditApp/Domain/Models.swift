@@ -25,7 +25,7 @@ struct RedditPost: Decodable {
     }
 }
 
-struct RedditChildreen: Decodable {
+struct RedditChildren: Decodable {
     var image: Data?
     var didRead: Bool?
     var didFetchImage: Bool?
@@ -36,7 +36,7 @@ struct RedditChildreen: Decodable {
 struct RedditListingPage: Decodable {
     let after: String
     let dist: Int
-    let children: [RedditChildreen]
+    let children: [RedditChildren]
 }
 
 struct RedditPostsResponse: Decodable {

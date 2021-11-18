@@ -8,14 +8,14 @@
 import UIKit
 
 protocol MainListViewControllerDelegate: AnyObject {
-    func didSelectPost(_ item: RedditChildreen)
+    func didSelectPost(_ item: RedditChildren)
 }
 
 protocol MainListDisplayable: AnyObject {
     func dismissAllPosts()
     func dismissPost(_ idx: IndexPath)
-    func displayPosts(with posts: [RedditChildreen], after: String?)
-    func displayNextPostsPage(with posts: [RedditChildreen], after: String?)
+    func displayPosts(with posts: [RedditChildren], after: String?)
+    func displayNextPostsPage(with posts: [RedditChildren], after: String?)
     func displayPostAsRead(_ idx: Int)
     func displayLoading(_ isLoading: Bool)
     func displayDownloadedImage(_ image: Data?, on idx: Int)
@@ -89,7 +89,7 @@ extension MainListViewController: MainListViewDelegate {
         interactor.dimissPost(idx)
     }
     
-    func didSelectPost(item: RedditChildreen, idx: Int) {
+    func didSelectPost(item: RedditChildren, idx: Int) {
         delegate?.didSelectPost(item)
         interactor.displayPostAsRead(idx)
         showDetail()
@@ -104,7 +104,7 @@ extension MainListViewController: MainListViewDelegate {
     }
     
     func didTapOnSaveImage(_ image: UIImage) {
-        interactor.presentSaveImageAllert(image)
+        interactor.presentSaveImageAlert(image)
     }
 
     func fecthImage(from url: String, with idx: Int) {
@@ -121,12 +121,12 @@ extension MainListViewController: MainListDisplayable {
         contentView.dismissPost(on: idx)
     }
     
-    func displayPosts(with posts: [RedditChildreen], after: String?) {
+    func displayPosts(with posts: [RedditChildren], after: String?) {
         contentView.dataSource = posts
         contentView.after = after ?? ""
     }
     
-    func displayNextPostsPage(with posts: [RedditChildreen], after: String?) {
+    func displayNextPostsPage(with posts: [RedditChildren], after: String?) {
         contentView.dataSource.append(contentsOf: posts)
         contentView.after = after ?? ""
     }

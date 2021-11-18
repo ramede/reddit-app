@@ -25,7 +25,7 @@ class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: MainListViewControllerDelegate {
-    func didSelectPost(_ item: RedditChildreen) {
+    func didSelectPost(_ item: RedditChildren) {
         contentView.author = item.data.author
         contentView.title = item.data.title
         contentView.imageData = item.image

@@ -15,7 +15,7 @@ protocol MainListInteractable: AnyObject {
     func displayPostAsRead(_ idx: Int)
     func saveImage(_ image: UIImage)
     func fetchImage(from url: String, with idx: Int)
-    func presentSaveImageAllert(_ image: UIImage)
+    func presentSaveImageAlert(_ image: UIImage)
 }
 
 final class MainListInteractor {
@@ -87,7 +87,7 @@ extension MainListInteractor: MainListInteractable {
         }
     }
     
-    func presentSaveImageAllert(_ image: UIImage) {
+    func presentSaveImageAlert(_ image: UIImage) {
         presenter.presentSaveImageAlert(image)
     }
     

@@ -19,7 +19,7 @@ private final class MainListViewControllerSpy: MainListDisplayable {
     private(set) var displayDownloadedImageCallsCount = 0
     private(set) var presentSaveImageAllertCallsCount = 0
     
-    private(set) var postsReceived: [RedditChildreen] = []
+    private(set) var postsReceived: [RedditChildren] = []
     
     func dismissAllPosts() {
         dimissAllPostsCallsCount += 1
@@ -31,12 +31,12 @@ private final class MainListViewControllerSpy: MainListDisplayable {
         postsReceived.remove(at: idx.row)
     }
     
-    func displayPosts(with posts: [RedditChildreen], after: String?) {
+    func displayPosts(with posts: [RedditChildren], after: String?) {
         displayPostsCallsCount += 1
         postsReceived = posts
     }
     
-    func displayNextPostsPage(with posts: [RedditChildreen], after: String?) {
+    func displayNextPostsPage(with posts: [RedditChildren], after: String?) {
         displayNextPostsPageCallsCount += 1
         postsReceived.append(contentsOf: posts)
     }
@@ -62,7 +62,7 @@ private final class MainListViewControllerSpy: MainListDisplayable {
 final class MainListPresenterTests: XCTestCase {
     private var sut: MainListPresenter!
     private var viewSpy: MainListViewControllerSpy!
-    private var redditChildreenListMock: [RedditChildreen] = []
+    private var redditChildreenListMock: [RedditChildren] = []
 
 
     override func setUpWithError() throws {
@@ -70,9 +70,9 @@ final class MainListPresenterTests: XCTestCase {
         sut = MainListPresenter()
         sut.viewController = viewSpy
         
-        let postMockOne = RedditChildreen.mock()
+        let postMockOne = RedditChildren.mock()
         
-        let postMockTwo = RedditChildreen.mock(
+        let postMockTwo = RedditChildren.mock(
             didRead: false,
             kind: "Listing",
             data: RedditPost.mock(
@@ -85,7 +85,7 @@ final class MainListPresenterTests: XCTestCase {
             )
         )
         
-        let postMockThree = RedditChildreen.mock(
+        let postMockThree = RedditChildren.mock(
             didRead: false,
             kind: "Listing",
             data: RedditPost.mock(
@@ -98,7 +98,7 @@ final class MainListPresenterTests: XCTestCase {
             )
         )
         
-        let postMockFour = RedditChildreen.mock(
+        let postMockFour = RedditChildren.mock(
             didRead: false,
             kind: "Listing",
             data: RedditPost.mock(
@@ -214,12 +214,12 @@ extension RedditPost {
     }
 }
 
-extension RedditChildreen {
+extension RedditChildren {
     static func mock(
         didRead: Bool = false,
         kind: String = "Listing",
         data: RedditPost = RedditPost.mock()
-    ) -> RedditChildreen {
+    ) -> RedditChildren {
         .init(
             didRead: didRead,
             kind: kind,

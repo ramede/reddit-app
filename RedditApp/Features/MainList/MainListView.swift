@@ -10,7 +10,7 @@ import UIKit
 protocol  MainListViewDelegate: AnyObject {
     func didTapOnDimissAll()
     func didTapOnDimissPost(idx: IndexPath)
-    func didSelectPost(item: RedditChildreen, idx: Int)
+    func didSelectPost(item: RedditChildren, idx: Int)
     func didPullToRefresh()
     func fetchNextPage(_ after: String)
     func didTapOnSaveImage(_ image: UIImage)
@@ -77,7 +77,7 @@ final class MainListView: UIView {
     
     var after: String = ""
 
-    var dataSource: [RedditChildreen] = [] {
+    var dataSource: [RedditChildren] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.isLoading = false

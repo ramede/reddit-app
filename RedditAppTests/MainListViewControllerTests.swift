@@ -47,7 +47,7 @@ private final class MainListInteractorSpy: MainListInteractable {
         fetchImageCallsCount += 1
     }
     
-    func presentSaveImageAllert(_ image: UIImage) {
+    func presentSaveImageAlert(_ image: UIImage) {
         presentSaveImageAllertCallsCount += 1
     }
 }
@@ -85,7 +85,7 @@ final class MainLisViewControllerTests: XCTestCase {
     }
     
     func testDisplayPostAsRead_WhenDisplayPostAsReadIsTapped_ShouldCallDisplayPostAsReadInteractor() {
-        sut.didSelectPost(item: RedditChildreen.mock(), idx: 3)
+        sut.didSelectPost(item: RedditChildren.mock(), idx: 3)
         
         XCTAssertEqual(interactorSpy.displayPostAsReadCallsCount, 1)
     }

@@ -21,11 +21,11 @@ private final class MainListPresenterSpy: MainListPresentable {
     
     var viewController: MainListDisplayable?
     
-    func presentPosts(posts: [RedditChildreen], after: String?) {
+    func presentPosts(posts: [RedditChildren], after: String?) {
         presentPostsCallsCount += 1
     }
     
-    func presentNextPostsPage(posts: [RedditChildreen], after: String?) {
+    func presentNextPostsPage(posts: [RedditChildren], after: String?) {
         presentNextPostCallsCount += 1
     }
     
@@ -68,7 +68,7 @@ final class MainListInteractorTests: XCTestCase {
         presenterSpy = nil
     }
     
-    func testDismissAllPosts_WhenDimissAllPostsInteractorIsCalled_ShouldCalledDimissAllPostInThePresenter() {
+    func testDismissAllPosts_WhenDimissAllPostsInteractorIsCalled_ShouldHaveCalledDimissAllPostInThePresenter() {
         sut.dismissAllPosts()
         
         XCTAssertEqual(presenterSpy.dismissAllPostsCallsCount, 1)
@@ -87,7 +87,7 @@ final class MainListInteractorTests: XCTestCase {
     }
     
     func testPresentSaveImageAllert_WhenPresentSaveImageAllertIsCalled_ShouldCalledSaveImageAlertPresenter() {
-        sut.presentSaveImageAllert(UIImage(named: "reddit") ?? UIImage())
+        sut.presentSaveImageAlert(UIImage(named: "reddit") ?? UIImage())
         
         XCTAssertEqual(presenterSpy.presentSaveImageAlertCallsCount, 1)
     }

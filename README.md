@@ -1,25 +1,25 @@
-# TV Maze
+# Reddit-app
 
-This is a single view app designed for listing TV series, using the API provided by the [TVMaze API](http://www.reddit.com/dev/api).\
-This iOS study covered essential foundations like VIP architecture, View Code, UITableView, URLSession, and Unit Test.
+This is a single view app designed to load reddit posts from [Reddit API](http://www.reddit.com/dev/api).\
+This iOS study covered some important foundations like VIP architecture, View Code, UITableView, UISlipViewController, URLSession and Unit Test.
 
-**Xcode Version**: 13.1\
+**Xcode Version**: 12.5.1\
 **Swift Version**: 5
 
 ## Features
 
-- [x] List all of the series contained in the API
-- [x] Search series by the name
-- [x] Show the details of the series
-- [x] Show the episode’s information
+- [x] Get top reddit posts
+- [x] Pull to refresh
+- [x] Pagination support
+- [x] Indicator of unread/read post (updated status, after post it’s selected)
+- [x] Dismiss Post Button (remove the cell from list)
+- [x] Dismiss All Button (remove all posts)
+- [x] Saving pictures in the picture gallery
 
 ## TODOs
 
-- [ ] Allow the user to set a PIN number to secure
-- [ ] Enable fingerprint authentication
-- [ ] Allow the user to save a series as a favorite
-- [ ] Allow the user to delete a series from the favorites list
-- [ ] Allow the user to browse their favorite series
+- [ ] Creating the URL and Request builder;
+- [ ] App state-preservation/restoration
 
 
 ## Final remarks
